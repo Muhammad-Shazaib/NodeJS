@@ -11,3 +11,5 @@
 1753727471645: GET /contact/ New Req Received
 1753727479295: GET /contact New Req Received
 1753727524859: GET /signup New Req Received
+1753798634509: GET / New Req Received
+1753798642721: GET /about New Req Received
