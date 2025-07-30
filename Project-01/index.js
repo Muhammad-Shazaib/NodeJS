@@ -3,6 +3,9 @@ const users = require('./MOCK_DATA.json');
 const app = express();
 const PORT = 8000;
 
+// Middleware --> Plugin
+app.use(express.urlencoded({extended: false}));
+
 
 app.get('/users', (req, res) => {
    const html =`
@@ -24,10 +27,7 @@ app.get('/api/users', (req, res) => {
 //    return res.json(user);
 // });
 
-// app.post('/api/users', (req, res) => {
-// //  TODO: Create new user
-//    return res.json({status: 'Pending...'});
-// });
+
 
 // app.patch('/api/users:id', (req, res) => {
 // //  TODO: Edit the users with id
@@ -45,10 +45,10 @@ app.route('/api/users/:id')
       const user = users.find(user => user.id === id);
       return res.json(user);
    })
-   .post((req, res) => {
-      //  TODO: Create new user
-      return res.json({status: 'Pending...'});
-   })
+   // .post((req, res) => {
+   //    //  TODO: Create new user
+   //    return res.json({status: 'Pending...'});
+   // })
    .patch((req, res) => {
       //  TODO: Edit the users with id
       return res.json({status: 'Pending...'});
@@ -59,8 +59,14 @@ app.route('/api/users/:id')
    });
 
 
+app.post('/api/users', (req, res) => {
+//  TODO: Create new user
+const body = req.body;
+users.push({...body, id: users.length + 1});
+fs.writeFile('./MOCK_DATA.json', JSON.stringify(users), (err, data)=> {
+      return res.json({status: 'success...', id: users.length })
+})
 
-
-
+});
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
